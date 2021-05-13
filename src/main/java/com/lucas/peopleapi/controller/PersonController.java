@@ -1,6 +1,6 @@
 package com.lucas.peopleapi.controller;
 
-import com.lucas.peopleapi.dto.MessageResponseDTO;
+import com.lucas.peopleapi.dto.response.MessageResponseDTO;
 import com.lucas.peopleapi.dto.request.PersonDTO;
 import com.lucas.peopleapi.entity.Person;
 import com.lucas.peopleapi.exception.PersonNotFoundException;
@@ -37,6 +37,11 @@ public class PersonController {
     @GetMapping("/{id}")
     public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
         return personService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody PersonDTO personDTO) throws PersonNotFoundException {
+        return personService.updateById(id, personDTO);
     }
 
     @DeleteMapping("/{id}")

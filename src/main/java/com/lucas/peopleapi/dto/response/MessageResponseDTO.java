@@ -1,4 +1,4 @@
-package com.lucas.peopleapi.dto;
+package com.lucas.peopleapi.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

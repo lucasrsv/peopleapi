@@ -1,6 +1,6 @@
 package com.lucas.peopleapi.service;
 
-import com.lucas.peopleapi.dto.MessageResponseDTO;
+import com.lucas.peopleapi.dto.response.MessageResponseDTO;
 import com.lucas.peopleapi.dto.request.PersonDTO;
 import com.lucas.peopleapi.entity.Person;
 import com.lucas.peopleapi.exception.PersonNotFoundException;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.lucas.peopleapi.repository.PersonRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,10 +27,7 @@ public class PersonService {
         Person personToSave = personMapper.toModel(personDTO);
 
         Person savedPerson = personRepository.save(personToSave);
-        return MessageResponseDTO
-                .builder()
-                .message("Created person with ID " + savedPerson.getId())
-                .build();
+        return createMessageResponse(savedPerson.getId(), "Created person with ID ");
     }
 
     public List<PersonDTO> listAll() {
@@ -49,6 +45,21 @@ public class PersonService {
     public void delete(Long id) throws PersonNotFoundException {
         checkIfPersonExists(id);
         personRepository.deleteById(id);
+    }
+
+    public MessageResponseDTO updateById(Long id, PersonDTO personDTO) throws PersonNotFoundException {
+        checkIfPersonExists(id);
+        Person personToUpdate = personMapper.toModel(personDTO);
+        Person updatedPerson = personRepository.save(personToUpdate);
+
+        return createMessageResponse(updatedPerson.getId(), "Updated person with ID ");
+    }
+
+    private MessageResponseDTO createMessageResponse(Long id, String message) {
+        return MessageResponseDTO
+                .builder()
+                .message(message + id)
+                .build();
     }
 
     private Person checkIfPersonExists(Long id) throws PersonNotFoundException {
