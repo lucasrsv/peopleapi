@@ -3,6 +3,7 @@ package com.lucas.peopleapi.controller;
 import com.lucas.peopleapi.dto.MessageResponseDTO;
 import com.lucas.peopleapi.dto.request.PersonDTO;
 import com.lucas.peopleapi.entity.Person;
+import com.lucas.peopleapi.exception.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,10 @@ public class PersonController {
     @GetMapping
     public List<PersonDTO> listAll() {
         return personService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
+        return personService.findById(id);
     }
 }
